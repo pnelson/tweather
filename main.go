@@ -44,7 +44,7 @@ type Weather struct {
 func (w *Weather) String() string {
 	o := &w.Observation
 	f := &w.Forecast.Simple.Day[0]
-	return fmt.Sprintf("%s at %dºC (%sºC)\nWind %dkm/h — Visibility %skm\n▼%sºC ▲%sºC ☂%d%%",
+	return fmt.Sprintf("%s at %dºC (%sºC)\nWind %dkm/h — Visibility %skm\n▼%sºC ▲%sºC — POP %d%%",
 		o.Condition, o.Temperature, o.TemperatureMod,
 		o.Wind, o.Visibility,
 		f.Low.Celsius, f.High.Celsius, f.Precipitation,
