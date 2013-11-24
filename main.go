@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/ChimeraCoder/anaconda"
 )
 
 var weatherUrl = fmt.Sprintf("http://api.wunderground.com/api/%s/%%s/q/%s/%s.json",
@@ -68,9 +70,15 @@ func weatherFrom(features []string) (*Weather, error) {
 }
 
 func main() {
+	anaconda.SetConsumerKey(os.Getenv("TWITTER_CONSUMER_KEY"))
+	anaconda.SetConsumerSecret(os.Getenv("TWITTER_CONSUMER_SECRET"))
 	weather, err := weatherFrom([]string{"conditions", "forecast"})
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(weather)
+	api := anaconda.NewTwitterApi(os.Getenv("TWITTER_ACCESS_TOKEN"), os.Getenv("TWITTER_ACCESS_TOKEN_SECRET"))
+	_, err = api.PostTweet(weather.String(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
